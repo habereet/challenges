@@ -10,7 +10,7 @@ SIMILAR = 0.87
 TAG_HTML = re.compile(r'<category>([^<]+)</category>')
 
 def get_similarity():
-    return float(input("Pick a decimal that you want to use as your similarity ratio: "))
+    return float(input("Pick a decimal that you want to use as your similarity ratio:"))
 
 def get_tags():
     with open(RSS_FEED) as RSS_File:
