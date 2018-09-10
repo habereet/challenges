@@ -41,8 +41,7 @@ class UserTweets(object):
         Source - https://stackoverflow.com/questions/3224268/python-unicode-encode-error
         """
         #return (number+1 for number in range(0,5))
-        return (Tweet(current_tweet.id_str, current_tweet.created_at, current_tweet.text.encode('ascii', 'ignore')) for current_tweet in handles_tweets)
-        
+        return (Tweet(current_tweet.id_str, current_tweet.created_at, current_tweet.text.encode('ascii', 'ignore').decode('ascii')) for current_tweet in handles_tweets)
         
     def _save_tweets(self):
         """I had to figure out why my file was including an extra line in between each line written by Python.
@@ -56,8 +55,9 @@ class UserTweets(object):
             #tweet_writer = csv.writer(tweet_file, delimiter=',')
             tweet_writer = csv.writer(tweet_file, delimiter='\t')
             tweet_writer.writerow(Tweet._fields)
-            for count in range(0,len(self._tweets)):
-                tweet_writer.writerow([self._tweets[count].id_str, self._tweets[count].created_at, self._tweets[count].text])
+            tweet_writer.writerows(self._tweets)
+            #for count in range(0,len(self._tweets)):
+            #    tweet_writer.writerow([self._tweets[count].id_str, self._tweets[count].created_at, self._tweets[count].text])
 
 
     def __len__(self):
@@ -74,6 +74,6 @@ if __name__ == "__main__":
         print('--- {} ---'.format(handle))
         user = UserTweets(handle)
         for tw in user[:5]:
-            print(tw.text)
-            #print(tw)
+            #print(tw.text)
+            print(tw)
         print()
